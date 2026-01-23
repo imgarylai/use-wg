@@ -1,3 +1,9 @@
+# 1.0.0 (2026-01-23)
+
+### Features
+
+- implement Wade-Giles romanization library ([c327662](https://github.com/imgarylai/use-wg/commit/c3276621fe85bebcfc76be4e2c6f260cf468cd24))
+
 # [2.0.0](https://github.com/imgarylai/ts-package-starter/compare/v1.1.0...v2.0.0) (2026-01-23)
 
 - feat!: drop Node.js 20 support ([4cc0378](https://github.com/imgarylai/ts-package-starter/commit/4cc0378dc39a270f83cfabd7b473f8d1a0172708))
