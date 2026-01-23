@@ -1,15 +1,13 @@
-/**
- * Returns a friendly greeting message.
- *
- * @example
- * ```typescript
- * import { HelloWorld } from 'ts-package-starter';
- *
- * console.log(HelloWorld()); // Output: "Hello World"
- * ```
- *
- * @returns A greeting message string
- */
-export const HelloWorld = (): string => {
-  return "Hello World";
-};
+// Main conversion functions
+export { toWadeGiles, pinyinToWadeGiles } from "./converter.js";
+
+// Types
+export type {
+  ToneFormat,
+  WadeGilesOptions,
+  WadeGilesResult,
+  WadeGilesSegment,
+} from "./types.js";
+
+// Utility functions
+export { containsChinese } from "./utils/chinese-detection.js";

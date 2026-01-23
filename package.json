@@ -1,16 +1,16 @@
 {
-  "name": "ts-package-starter",
-  "version": "2.0.0",
-  "description": "A modern TypeScript package starter template with best practices",
+  "name": "use-wg",
+  "version": "1.0.0",
+  "description": "A TypeScript library for converting Chinese characters to Wade-Giles romanization",
   "license": "MIT",
   "author": "Gary Lai <garylai1990@gmail.com>",
-  "homepage": "https://github.com/imgarylai/ts-package-starter#readme",
+  "homepage": "https://github.com/imgarylai/use-wg#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imgarylai/ts-package-starter.git"
+    "url": "git+https://github.com/imgarylai/use-wg.git"
   },
   "bugs": {
-    "url": "https://github.com/imgarylai/ts-package-starter/issues"
+    "url": "https://github.com/imgarylai/use-wg/issues"
   },
   "type": "module",
   "exports": {
@@ -45,6 +45,9 @@
   },
   "sideEffects": false,
   "types": "./dist/index.d.ts",
+  "dependencies": {
+    "pinyin-pro": "^3.26.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "@semantic-release/changelog": "^6.0.0",
@@ -74,10 +77,12 @@
     "typescript": "5.9.3"
   },
   "keywords": [
-    "package",
-    "starter",
-    "template",
-    "typescript"
+    "chinese",
+    "pinyin",
+    "romanization",
+    "transliteration",
+    "typescript",
+    "wade-giles"
   ],
   "engines": {
     "node": ">=22.14.0",
