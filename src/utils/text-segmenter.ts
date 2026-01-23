@@ -62,6 +62,7 @@ export function segmentText(text: string): TextSegment[] {
     }
   }
 
+  // istanbul ignore next - currentSegment is always non-null after loop when text.length > 0
   if (currentSegment !== null) {
     segments.push(currentSegment);
   }

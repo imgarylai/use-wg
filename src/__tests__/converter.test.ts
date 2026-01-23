@@ -85,6 +85,48 @@ describe("toWadeGiles", () => {
       expect(result.text).toBe("jen²");
     });
   });
+
+  describe("polyphoneMode", () => {
+    it("should return alternatives when polyphoneMode is all", () => {
+      // 行 is a polyphone with multiple readings (xíng, háng, etc.)
+      const result = toWadeGiles("行", { polyphoneMode: "all" });
+      expect(result.segments[0]?.alternatives).toBeDefined();
+      expect(result.segments[0]?.alternatives?.length).toBeGreaterThan(0);
+    });
+
+    it("should not return alternatives in auto mode", () => {
+      const result = toWadeGiles("行", { polyphoneMode: "auto" });
+      expect(result.segments[0]?.alternatives).toBeUndefined();
+    });
+
+    it("should deduplicate alternatives", () => {
+      const result = toWadeGiles("行", { polyphoneMode: "all" });
+      const alternatives = result.segments[0]?.alternatives ?? [];
+      const uniqueAlternatives = [...new Set(alternatives)];
+      expect(alternatives).toEqual(uniqueAlternatives);
+    });
+
+    it("should not add alternatives for non-polyphones", () => {
+      // 人 is not a polyphone
+      const result = toWadeGiles("人", { polyphoneMode: "all" });
+      expect(result.segments[0]?.alternatives).toBeUndefined();
+    });
+  });
+
+  describe("fallback handling", () => {
+    it("should handle unknown pinyin by using pinyin as fallback", () => {
+      // Test pinyinToWadeGiles with an unknown syllable
+      const result = pinyinToWadeGiles("xyz1");
+      expect(result).toBe("xyz¹");
+    });
+
+    it("should handle rare characters gracefully", () => {
+      // 嗯 (ń/ňg/ǹg) - interjection, may have non-standard pinyin
+      const result = toWadeGiles("嗯");
+      expect(result.text).toBeDefined();
+      expect(result.segments).toHaveLength(1);
+    });
+  });
 });
 
 describe("pinyinToWadeGiles", () => {

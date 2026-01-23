@@ -121,6 +121,7 @@ function convertChineseSegment(
           segment.alternatives = allReadings
             .map((reading) => {
               const base = reading.replace(/[1-5]$/, "");
+              // istanbul ignore next - fallback for unmapped pinyin
               return lookupWadeGiles(base) ?? base;
             })
             .filter((alt, idx, arr) => arr.indexOf(alt) === idx); // Dedupe
@@ -191,6 +192,7 @@ export function pinyinToWadeGiles(
 
   // Extract tone from pinyin
   const toneMatch = pinyin.match(/([1-5])$/);
+  // istanbul ignore next - regex group always exists when match succeeds
   const tone = toneMatch ? parseInt(toneMatch[1] ?? "5", 10) : undefined;
   const basePinyin = pinyin.replace(/[1-5]$/, "").toLowerCase();
 

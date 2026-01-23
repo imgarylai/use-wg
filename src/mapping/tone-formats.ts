@@ -50,10 +50,11 @@ export function extractTone(pinyin: string): {
 } {
   // Check for numeric tone at the end
   const numericMatch = pinyin.match(/^(.+?)([1-5])$/);
+  /* istanbul ignore else */
   if (numericMatch) {
     return {
-      base: numericMatch[1] ?? pinyin,
-      tone: parseInt(numericMatch[2] ?? "0", 10),
+      base: numericMatch[1]!,
+      tone: parseInt(numericMatch[2]!, 10),
     };
   }
 

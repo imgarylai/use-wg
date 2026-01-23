@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:mandarinportal.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:pinyin-pro.cn)",
+      "Bash(npm test:*)",
+      "Bash(npm run test:coverage:*)"
+    ]
+  }
+}

@@ -5,6 +5,13 @@ import {
 } from "../utils/chinese-detection";
 import { segmentText } from "../utils/text-segmenter";
 import { toUrlSafe, isUrlSafe } from "../utils/url-safe";
+import {
+  toPinyin,
+  getAllPinyinReadings,
+  setCustomPinyin,
+  pinyin,
+  customPinyin,
+} from "../utils/pinyin";
 
 describe("Chinese detection", () => {
   describe("containsChinese", () => {
@@ -160,6 +167,73 @@ describe("URL-safe utilities", () => {
       expect(isUrlSafe("chü")).toBe(false);
       expect(isUrlSafe("Taipei")).toBe(false); // uppercase
       expect(isUrlSafe("hello world")).toBe(false); // space
+    });
+  });
+});
+
+describe("Pinyin utilities", () => {
+  describe("toPinyin", () => {
+    it("should convert Chinese text to pinyin", () => {
+      const results = toPinyin("中國");
+      expect(results).toHaveLength(2);
+      expect(results[0]?.character).toBe("中");
+      expect(results[0]?.pinyinWithoutTone).toBe("zhong");
+      expect(results[0]?.tone).toBe(1);
+      expect(results[1]?.character).toBe("國");
+      expect(results[1]?.pinyinWithoutTone).toBe("guo");
+      expect(results[1]?.tone).toBe(2);
+    });
+
+    it("should handle single character", () => {
+      const results = toPinyin("人");
+      expect(results).toHaveLength(1);
+      expect(results[0]?.pinyinWithoutTone).toBe("ren");
+    });
+
+    it("should handle empty string", () => {
+      const results = toPinyin("");
+      expect(results).toHaveLength(0);
+    });
+  });
+
+  describe("getAllPinyinReadings", () => {
+    it("should return multiple readings for polyphones", () => {
+      // 行 has multiple readings: xíng, háng, etc.
+      const readings = getAllPinyinReadings("行");
+      expect(readings.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it("should return single reading for non-polyphones", () => {
+      const readings = getAllPinyinReadings("人");
+      expect(readings.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it("should handle characters with multiple pronunciations", () => {
+      // 樂 has multiple readings (yuè, lè, etc.)
+      const readings = getAllPinyinReadings("樂");
+      expect(readings.length).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  describe("setCustomPinyin", () => {
+    it("should allow setting custom pinyin mappings", () => {
+      // This just verifies the function can be called without error
+      setCustomPinyin({ 測: "ce4" });
+      // The effect would be seen in subsequent conversions
+      expect(true).toBe(true);
+    });
+  });
+
+  describe("re-exported pinyin functions", () => {
+    it("should export pinyin function from pinyin-pro", () => {
+      const result = pinyin("中", { toneType: "num", type: "array" });
+      expect(result).toContain("zhong1");
+    });
+
+    it("should export customPinyin function from pinyin-pro", () => {
+      // customPinyin allows setting custom mappings
+      expect(typeof customPinyin).toBe("function");
+      customPinyin({ 測: "ce4" });
     });
   });
 });

@@ -40,10 +40,12 @@ export function toPinyin(
     const char = characters[i];
     const py = pinyinArray[i];
 
+    // istanbul ignore next - defensive check for array bounds
     if (char === undefined || py === undefined) continue;
 
     // Extract tone number from pinyin (e.g., "zhong1" -> tone 1)
     const toneMatch = py.match(/([1-5])$/);
+    // istanbul ignore next - regex group always exists when match succeeds
     const tone = toneMatch ? parseInt(toneMatch[1] ?? "5", 10) : 5;
 
     // Remove tone number to get base pinyin

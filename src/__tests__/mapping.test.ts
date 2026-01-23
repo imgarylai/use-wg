@@ -1,5 +1,11 @@
 import { lookupWadeGiles } from "../mapping/pinyin-to-wade-giles";
 import { formatTone, extractTone } from "../mapping/tone-formats";
+import {
+  lookupWadeGiles as lookupWadeGilesFromIndex,
+  PINYIN_TO_WADE_GILES,
+  formatTone as formatToneFromIndex,
+  extractTone as extractToneFromIndex,
+} from "../mapping";
 
 describe("PINYIN_TO_WADE_GILES mapping", () => {
   describe("initial consonant transformations", () => {
@@ -185,6 +191,15 @@ describe("formatTone", () => {
     expect(formatTone(undefined, "superscript")).toBe("");
     expect(formatTone(undefined, "number")).toBe("");
   });
+
+  it("should return empty string for invalid tone number", () => {
+    expect(formatTone(99, "superscript")).toBe("");
+  });
+
+  it("should return empty string for unknown format", () => {
+    // Test edge case with invalid format (type assertion to bypass TypeScript)
+    expect(formatTone(1, "invalid" as "superscript")).toBe("");
+  });
 });
 
 describe("extractTone", () => {
@@ -204,5 +219,36 @@ describe("extractTone", () => {
     expect(extractTone("guó").tone).toBe(2);
     expect(extractTone("běi").tone).toBe(3);
     expect(extractTone("shì").tone).toBe(4);
+  });
+
+  it("should handle ü with tone marks", () => {
+    expect(extractTone("lǖ").tone).toBe(1);
+    expect(extractTone("lǘ").tone).toBe(2);
+    expect(extractTone("lǚ").tone).toBe(3);
+    expect(extractTone("lǜ").tone).toBe(4);
+  });
+
+  it("should handle plain ü", () => {
+    const result = extractTone("lü");
+    expect(result.base).toBe("lv");
+    expect(result.tone).toBeUndefined();
+  });
+});
+
+describe("mapping index re-exports", () => {
+  it("should re-export lookupWadeGiles", () => {
+    expect(lookupWadeGilesFromIndex("zhong")).toBe("chung");
+  });
+
+  it("should re-export PINYIN_TO_WADE_GILES constant", () => {
+    expect(PINYIN_TO_WADE_GILES["zhong"]).toBe("chung");
+  });
+
+  it("should re-export formatTone", () => {
+    expect(formatToneFromIndex(1, "superscript")).toBe("¹");
+  });
+
+  it("should re-export extractTone", () => {
+    expect(extractToneFromIndex("zhong1").tone).toBe(1);
   });
 });
