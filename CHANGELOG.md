@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/imgarylai/use-wg/compare/v1.0.1...v1.1.0) (2026-01-24)
+
+### Features
+
+- improve URL-safe mode for mixed text ([a2a0ea9](https://github.com/imgarylai/use-wg/commit/a2a0ea9ddd997191e4cff5144b93b1f372ba2c24))
+
 ## [1.0.1](https://github.com/imgarylai/use-wg/compare/v1.0.0...v1.0.1) (2026-01-24)
 
 ### Bug Fixes
