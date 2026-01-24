@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/imgarylai/use-wg/compare/v1.0.0...v1.0.1) (2026-01-24)
+
+### Bug Fixes
+
+- **ci:** add concurrency control to release workflow ([cb180d0](https://github.com/imgarylai/use-wg/commit/cb180d0b4a13b7bd28af5adb738570edce16d087))
+- **ci:** enable GitHub Pages in documentation workflow ([c05515e](https://github.com/imgarylai/use-wg/commit/c05515e42a4e01734d927234dde0b29e186cf79e))
+
 # 1.0.0 (2026-01-23)
 
 ### Features
