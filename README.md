@@ -1,72 +1,72 @@
 # use-wg
 
-A TypeScript library for converting Chinese characters to Wade-Giles romanization.
+將中文字轉換為威妥瑪拼音的 TypeScript 函式庫。
 
 [![CI](https://github.com/imgarylai/use-wg/actions/workflows/test.yml/badge.svg)](https://github.com/imgarylai/use-wg/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[繁體中文](README.zh-TW.md)
+[English](README.en.md)
 
-## Features
+## 功能特色
 
-- Chinese characters (Traditional & Simplified) → Wade-Giles romanization
-- Configurable tone format (superscript, number, none)
-- Mixed Chinese/English text handling
-- URL-safe output mode
-- Context-aware polyphone handling
-- TypeScript support with full type definitions
+- 中文字（繁體及簡體）→ 威妥瑪拼音轉換
+- 可設定聲調格式（上標、數字、無）
+- 處理中英文混合文字
+- URL 安全輸出模式
+- 上下文感知的多音字處理
+- 完整的 TypeScript 型別定義
 
-## Installation
+## 安裝
 
 ```bash
 npm install use-wg
 ```
 
-## Usage
+## 使用方式
 
-### Basic Conversion
+### 基本轉換
 
 ```typescript
 import { toWadeGiles } from "use-wg";
 
-// Basic conversion
+// 基本轉換
 toWadeGiles("台灣").text; // "t'ai²-wan¹"
 toWadeGiles("中國").text; // "chung¹-kuo²"
 toWadeGiles("北京").text; // "pei³-ching¹"
 ```
 
-### Tone Formats
+### 聲調格式
 
 ```typescript
-// Superscript tones (default)
+// 上標聲調（預設）
 toWadeGiles("北京", { toneFormat: "superscript" }).text; // "pei³-ching¹"
 
-// Number tones
+// 數字聲調
 toWadeGiles("北京", { toneFormat: "number" }).text; // "pei3-ching1"
 
-// No tones
+// 無聲調
 toWadeGiles("北京", { toneFormat: "none" }).text; // "pei-ching"
 ```
 
-### URL-Safe Mode
+### URL 安全模式
 
-Produces ASCII-only output suitable for URLs, filenames, and identifiers:
+產生僅包含 ASCII 字元的輸出，適用於網址、檔案名稱和識別碼：
 
 ```typescript
 toWadeGiles("台灣", { urlSafe: true }).text; // "tai-wan"
 toWadeGiles("氣功", { urlSafe: true }).text; // "chi-kung"
 ```
 
-URL-safe mode automatically:
+URL 安全模式會自動：
 
-- Removes tone markers
-- Converts `ü` → `u`
-- Removes apostrophes (`'`)
-- Outputs lowercase
+- 移除聲調標記
+- 將 `ü` 轉換為 `u`
+- 移除撇號（`'`）
+- 輸出小寫
 
-### Mixed Chinese/English Text
+### 中英文混合文字
 
-The converter intelligently handles mixed text:
+轉換器能智慧處理混合文字：
 
 ```typescript
 toWadeGiles("Hello 世界!").text; // "Hello shih⁴-chieh⁴!"
@@ -74,20 +74,20 @@ toWadeGiles("iPhone 手機 Pro").text; // "iPhone shou³-chi¹ Pro"
 toWadeGiles("2024年").text; // "2024nien²"
 ```
 
-### Options
+### 選項設定
 
 ```typescript
 toWadeGiles("中國", {
   toneFormat: "superscript", // 'superscript' | 'number' | 'none'
-  separator: "-", // Separator between syllables
-  preserveNonChinese: true, // Keep non-Chinese characters
-  capitalize: false, // Capitalize first letter
+  separator: "-", // 音節分隔符號
+  preserveNonChinese: true, // 保留非中文字元
+  capitalize: false, // 首字母大寫
   polyphoneMode: "auto", // 'auto' | 'all'
-  urlSafe: false, // ASCII-only output
+  urlSafe: false, // 僅 ASCII 輸出
 });
 ```
 
-### Direct Pinyin Conversion
+### 直接拼音轉換
 
 ```typescript
 import { pinyinToWadeGiles } from "use-wg";
@@ -97,7 +97,7 @@ pinyinToWadeGiles("guo2"); // "kuo²"
 pinyinToWadeGiles("qi4"); // "ch'i⁴"
 ```
 
-### Utility Functions
+### 工具函式
 
 ```typescript
 import { containsChinese } from "use-wg";
@@ -106,9 +106,9 @@ containsChinese("Hello 世界"); // true
 containsChinese("Hello World"); // false
 ```
 
-### Segments Information
+### 分段資訊
 
-Access detailed conversion information:
+取得詳細的轉換資訊：
 
 ```typescript
 const result = toWadeGiles("中國");
@@ -121,73 +121,73 @@ console.log(result.segments);
 // ]
 ```
 
-## Wade-Giles Mapping
+## 威妥瑪拼音對照表
 
-Key conversion patterns:
+主要轉換規則：
 
-| Pinyin  | Wade-Giles | Example        |
-| ------- | ---------- | -------------- |
-| b → p   | ba → pa    | 八 bā → pa¹    |
-| p → p'  | pa → p'a   | 怕 pà → p'a⁴   |
-| d → t   | da → ta    | 大 dà → ta⁴    |
-| t → t'  | ta → t'a   | 他 tā → t'a¹   |
-| g → k   | ga → ka    | 高 gāo → kao¹  |
-| k → k'  | ka → k'a   | 看 kàn → k'an⁴ |
-| j → ch  | ji → chi   | 雞 jī → chi¹   |
-| q → ch' | qi → ch'i  | 氣 qì → ch'i⁴  |
-| x → hs  | xi → hsi   | 西 xī → hsi¹   |
-| zh → ch | zhi → chih | 知 zhī → chih¹ |
-| z → ts  | zi → tzu   | 子 zǐ → tzu³   |
-| c → ts' | ci → tz'u  | 次 cì → tz'u⁴  |
-| r → j   | ri → jih   | 日 rì → jih⁴   |
-| si → ss | si → ssu   | 四 sì → ssu⁴   |
+| 漢語拼音 | 威妥瑪拼音 | 範例           |
+| -------- | ---------- | -------------- |
+| b → p    | ba → pa    | 八 bā → pa¹    |
+| p → p'   | pa → p'a   | 怕 pà → p'a⁴   |
+| d → t    | da → ta    | 大 dà → ta⁴    |
+| t → t'   | ta → t'a   | 他 tā → t'a¹   |
+| g → k    | ga → ka    | 高 gāo → kao¹  |
+| k → k'   | ka → k'a   | 看 kàn → k'an⁴ |
+| j → ch   | ji → chi   | 雞 jī → chi¹   |
+| q → ch'  | qi → ch'i  | 氣 qì → ch'i⁴  |
+| x → hs   | xi → hsi   | 西 xī → hsi¹   |
+| zh → ch  | zhi → chih | 知 zhī → chih¹ |
+| z → ts   | zi → tzu   | 子 zǐ → tzu³   |
+| c → ts'  | ci → tz'u  | 次 cì → tz'u⁴  |
+| r → j    | ri → jih   | 日 rì → jih⁴   |
+| si → ss  | si → ssu   | 四 sì → ssu⁴   |
 
-## API Reference
+## API 參考
 
 ### `toWadeGiles(text, options?)`
 
-Convert Chinese text to Wade-Giles romanization.
+將中文文字轉換為威妥瑪拼音。
 
-**Parameters:**
+**參數：**
 
-- `text` (string) - Chinese text to convert
-- `options` (WadeGilesOptions) - Optional configuration
+- `text` (string) - 要轉換的中文文字
+- `options` (WadeGilesOptions) - 選用的設定選項
 
-**Returns:** `WadeGilesResult`
+**回傳值：** `WadeGilesResult`
 
 ### `pinyinToWadeGiles(pinyin, options?)`
 
-Convert a pinyin syllable to Wade-Giles.
+將拼音音節轉換為威妥瑪拼音。
 
-**Parameters:**
+**參數：**
 
-- `pinyin` (string) - Pinyin syllable with optional tone number
-- `options` ({ toneFormat?: ToneFormat }) - Optional tone format
+- `pinyin` (string) - 帶有選用聲調數字的拼音音節
+- `options` ({ toneFormat?: ToneFormat }) - 選用的聲調格式
 
-**Returns:** `string`
+**回傳值：** `string`
 
 ### `containsChinese(text)`
 
-Check if a string contains Chinese characters.
+檢查字串是否包含中文字元。
 
-**Parameters:**
+**參數：**
 
-- `text` (string) - Text to check
+- `text` (string) - 要檢查的文字
 
-**Returns:** `boolean`
+**回傳值：** `boolean`
 
-## Types
+## 型別定義
 
 ```typescript
 type ToneFormat = "superscript" | "number" | "none";
 
 interface WadeGilesOptions {
-  toneFormat?: ToneFormat; // Default: 'superscript'
-  separator?: string; // Default: '-'
-  preserveNonChinese?: boolean; // Default: true
-  capitalize?: boolean; // Default: false
-  polyphoneMode?: "auto" | "all"; // Default: 'auto'
-  urlSafe?: boolean; // Default: false
+  toneFormat?: ToneFormat; // 預設: 'superscript'
+  separator?: string; // 預設: '-'
+  preserveNonChinese?: boolean; // 預設: true
+  capitalize?: boolean; // 預設: false
+  polyphoneMode?: "auto" | "all"; // 預設: 'auto'
+  urlSafe?: boolean; // 預設: false
 }
 
 interface WadeGilesResult {
@@ -204,31 +204,31 @@ interface WadeGilesSegment {
 }
 ```
 
-## Requirements
+## 系統需求
 
-- Node.js >= 22.14.0
+- Node.js >= 22
 - npm >= 10.0.0
 
-## Development
+## 開發
 
 ```bash
-# Install dependencies
+# 安裝相依套件
 npm install
 
-# Run tests
+# 執行測試
 npm test
 
-# Build
+# 建置
 npm run build
 
-# Type check
+# 型別檢查
 npm run type-check
 ```
 
-## License
+## 授權
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - 詳見 [LICENSE](LICENSE) 檔案。
 
-## Author
+## 作者
 
 Gary Lai - [@imgarylai](https://github.com/imgarylai)

@@ -85,7 +85,7 @@
     "wade-giles"
   ],
   "engines": {
-    "node": ">=22.14.0",
+    "node": ">=22",
     "npm": ">=10.0.0"
   },
   "lint-staged": {
