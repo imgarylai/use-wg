@@ -22,6 +22,11 @@ export default [
         project: ["./tsconfig.json", "./tsconfig.test.json"],
       },
       globals: {
+        // Add Node.js globals
+        console: true,
+        process: true,
+        __dirname: true,
+        __filename: true,
         // Add Jest globals
         jest: true,
         describe: true,

@@ -15,6 +15,7 @@
 - URL 安全輸出模式
 - 上下文感知的多音字處理
 - 完整的 TypeScript 型別定義
+- 命令列工具（CLI）
 
 ## 安裝
 
@@ -22,7 +23,43 @@
 npm install use-wg
 ```
 
-## 使用方式
+## CLI 命令列工具
+
+直接透過 `npx` 使用：
+
+```bash
+# 基本用法
+npx use-wg "台灣"              # 輸出: t'ai²-wan¹
+
+# URL 安全模式
+npx use-wg "台灣" --url-safe    # 輸出: tai-wan
+
+# 聲調格式
+npx use-wg "高雄" --tone number # 輸出: kao1-hsiung2
+npx use-wg "高雄" --tone none   # 輸出: kao-hsiung
+
+# 從 stdin 讀取
+echo "台灣" | npx use-wg
+
+# JSON 輸出（含分段資訊）
+npx use-wg "台灣" --json
+
+# 拼音轉換模式
+npx use-wg --pinyin "zhong1"    # 輸出: chung¹
+```
+
+### CLI 選項
+
+| 選項                | 簡寫 | 說明                                | 預設值      |
+| ------------------- | ---- | ----------------------------------- | ----------- |
+| `--url-safe`        | `-u` | 輸出 URL 安全格式                   | false       |
+| `--tone <format>`   | `-t` | 聲調格式: superscript, number, none | superscript |
+| `--separator <sep>` | `-s` | 音節分隔符號                        | -           |
+| `--capitalize`      | `-c` | 首字母大寫                          | false       |
+| `--json`            | `-j` | 輸出 JSON 格式                      | false       |
+| `--pinyin`          | `-p` | 拼音轉威妥瑪模式                    | false       |
+
+## 程式庫使用方式
 
 ### 基本轉換
 

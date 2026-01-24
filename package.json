@@ -20,6 +20,9 @@
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
+  "bin": {
+    "use-wg": "./dist/cli.mjs"
+  },
   "files": [
     "dist",
     "src"
@@ -47,6 +50,7 @@
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "dependencies": {
+    "commander": "14.0.2",
     "pinyin-pro": "^3.26.0"
   },
   "devDependencies": {
@@ -79,6 +83,7 @@
   },
   "keywords": [
     "chinese",
+    "cli",
     "pinyin",
     "romanization",
     "transliteration",

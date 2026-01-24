@@ -15,6 +15,7 @@ A TypeScript library for converting Chinese characters to Wade-Giles romanizatio
 - URL-safe output mode
 - Context-aware polyphone handling
 - TypeScript support with full type definitions
+- Command-line interface (CLI)
 
 ## Installation
 
@@ -22,7 +23,43 @@ A TypeScript library for converting Chinese characters to Wade-Giles romanizatio
 npm install use-wg
 ```
 
-## Usage
+## CLI
+
+Use directly via `npx`:
+
+```bash
+# Basic usage
+npx use-wg "台灣"              # Output: t'ai²-wan¹
+
+# URL-safe mode
+npx use-wg "台灣" --url-safe    # Output: tai-wan
+
+# Tone formats
+npx use-wg "高雄" --tone number # Output: kao1-hsiung2
+npx use-wg "高雄" --tone none   # Output: kao-hsiung
+
+# From stdin
+echo "台灣" | npx use-wg
+
+# JSON output (with segments)
+npx use-wg "台灣" --json
+
+# Pinyin mode
+npx use-wg --pinyin "zhong1"    # Output: chung¹
+```
+
+### CLI Options
+
+| Option              | Short | Description                            | Default     |
+| ------------------- | ----- | -------------------------------------- | ----------- |
+| `--url-safe`        | `-u`  | Produce URL-safe output                | false       |
+| `--tone <format>`   | `-t`  | Tone format: superscript, number, none | superscript |
+| `--separator <sep>` | `-s`  | Separator between syllables            | -           |
+| `--capitalize`      | `-c`  | Capitalize first letter                | false       |
+| `--json`            | `-j`  | Output JSON format                     | false       |
+| `--pinyin`          | `-p`  | Pinyin to Wade-Giles mode              | false       |
+
+## Library Usage
 
 ### Basic Conversion
 
