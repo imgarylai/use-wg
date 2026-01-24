@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/imgarylai/use-wg/compare/v1.1.0...v1.2.0) (2026-01-24)
+
+### Bug Fixes
+
+- **ci:** add build step before tests ([e25a517](https://github.com/imgarylai/use-wg/commit/e25a517421c3764bb711f986934242b0998006a7))
+- **ci:** add build step before tests in release workflow ([f6ee22f](https://github.com/imgarylai/use-wg/commit/f6ee22f0816ceaed6c6a05be8646cb9374aae7ad))
+
+### Features
+
+- add CLI for command-line usage ([8aedf6c](https://github.com/imgarylai/use-wg/commit/8aedf6cc8a59798c2e9364af9f69153b7f5d134f))
+- add performance benchmark ([b8e34ba](https://github.com/imgarylai/use-wg/commit/b8e34bacb83795f4964e4ef5b9ba6d62ce74a83b))
+
 # [1.1.0](https://github.com/imgarylai/use-wg/compare/v1.0.1...v1.1.0) (2026-01-24)
 
 ### Features
