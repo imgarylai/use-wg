@@ -55,7 +55,17 @@ describe("Mixed Chinese and non-Chinese text", () => {
   describe("URL-safe with mixed text", () => {
     it("should handle mixed text in URL-safe mode", () => {
       const result = toWadeGiles("My 台灣 Trip", { urlSafe: true });
-      expect(result.text).toBe("My tai-wan Trip");
+      expect(result.text).toBe("my-tai-wan-trip");
+    });
+
+    it("should add separator between numbers and Chinese in URL-safe mode", () => {
+      const result = toWadeGiles("2024年", { urlSafe: true });
+      expect(result.text).toBe("2024-nien");
+    });
+
+    it("should add separator between letters and Chinese in URL-safe mode", () => {
+      const result = toWadeGiles("A中B", { urlSafe: true });
+      expect(result.text).toBe("a-chung-b");
     });
   });
 

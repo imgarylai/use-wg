@@ -54,13 +54,13 @@ export function toWadeGiles(
 
   const textSegments = segmentText(text);
   const resultSegments: WadeGilesSegment[] = [];
-  const outputParts: string[] = [];
+  const outputParts: { text: string; type: "chinese" | "non-chinese" }[] = [];
 
   for (const segment of textSegments) {
     if (segment.type === "non-chinese") {
       // Preserve non-Chinese text as-is
       if (opts.preserveNonChinese) {
-        outputParts.push(segment.text);
+        outputParts.push({ text: segment.text, type: "non-chinese" });
         resultSegments.push({
           original: segment.text,
           pinyin: "",
@@ -70,13 +70,44 @@ export function toWadeGiles(
     } else {
       // Convert Chinese characters
       const chineseResult = convertChineseSegment(segment.text, opts);
-      outputParts.push(chineseResult.text);
+      outputParts.push({ text: chineseResult.text, type: "chinese" });
       resultSegments.push(...chineseResult.segments);
     }
   }
 
+  // Join parts, adding separator between alphanumeric and Chinese in URL-safe mode
+  let finalText = "";
+  for (let i = 0; i < outputParts.length; i++) {
+    const current = outputParts[i]!;
+    const prev = outputParts[i - 1];
+
+    // In URL-safe mode, add separator between alphanumeric non-Chinese and Chinese
+    if (
+      opts.urlSafe &&
+      prev &&
+      current.text.length > 0 &&
+      prev.text.length > 0
+    ) {
+      const prevEndsAlnum = /[a-zA-Z0-9]$/.test(prev.text);
+      const currStartsAlpha = /^[a-zA-Z]/.test(current.text);
+      if (prevEndsAlnum && currStartsAlpha) {
+        finalText += opts.separator;
+      }
+    }
+
+    finalText += current.text;
+  }
+
+  // Apply URL-safe transformation to the entire output
+  if (opts.urlSafe) {
+    finalText = finalText
+      .toLowerCase()
+      .replace(/\s+/g, opts.separator)
+      .replace(/-+/g, "-"); // Collapse multiple hyphens
+  }
+
   return {
-    text: outputParts.join(""),
+    text: finalText,
     segments: resultSegments,
   };
 }

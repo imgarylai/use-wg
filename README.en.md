@@ -63,6 +63,7 @@ URL-safe mode automatically:
 - Converts `ü` → `u`
 - Removes apostrophes (`'`)
 - Outputs lowercase
+- Converts spaces to hyphens (`-`)
 
 ### Mixed Chinese/English Text
 
