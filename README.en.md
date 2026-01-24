@@ -205,6 +205,22 @@ interface WadeGilesSegment {
 }
 ```
 
+## Performance
+
+Run benchmark: `npm run benchmark`
+
+| Test             | Input                             | Avg (ms) | Ops/sec |
+| ---------------- | --------------------------------- | -------- | ------- |
+| Short (2 chars)  | `台灣`                            | 0.0037   | 273,321 |
+| Medium (8 chars) | `這是一個測試句子`                | 0.0108   | 92,664  |
+| Long (11 chars)  | `台北市信義區忠孝東路四段`        | 0.0150   | 66,465  |
+| Mixed text       | `Hello 世界! This is a test 測試` | 0.0063   | 159,867 |
+| With numbers     | `2024年台灣之旅`                  | 0.0064   | 157,288 |
+| URL-safe short   | `台灣`                            | 0.0031   | 318,489 |
+| URL-safe mixed   | `My 台灣 Trip 2024年`             | 0.0057   | 176,106 |
+
+**Average: ~180,000 ops/sec**
+
 ## Requirements
 
 - Node.js >= 22

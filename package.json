@@ -25,6 +25,7 @@
     "src"
   ],
   "scripts": {
+    "benchmark": "node benchmarks/index.js",
     "build": "tsup",
     "clean": "rimraf dist coverage",
     "dev": "tsup --watch",
