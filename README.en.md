@@ -31,21 +31,21 @@ import { toWadeGiles } from "use-wg";
 
 // Basic conversion
 toWadeGiles("台灣").text; // "t'ai²-wan¹"
-toWadeGiles("中國").text; // "chung¹-kuo²"
-toWadeGiles("北京").text; // "pei³-ching¹"
+toWadeGiles("台北").text; // "t'ai²-pei³"
+toWadeGiles("高雄").text; // "kao¹-hsiung²"
 ```
 
 ### Tone Formats
 
 ```typescript
 // Superscript tones (default)
-toWadeGiles("北京", { toneFormat: "superscript" }).text; // "pei³-ching¹"
+toWadeGiles("高雄", { toneFormat: "superscript" }).text; // "kao¹-hsiung²"
 
 // Number tones
-toWadeGiles("北京", { toneFormat: "number" }).text; // "pei3-ching1"
+toWadeGiles("高雄", { toneFormat: "number" }).text; // "kao1-hsiung2"
 
 // No tones
-toWadeGiles("北京", { toneFormat: "none" }).text; // "pei-ching"
+toWadeGiles("高雄", { toneFormat: "none" }).text; // "kao-hsiung"
 ```
 
 ### URL-Safe Mode
@@ -77,7 +77,7 @@ toWadeGiles("2024年").text; // "2024nien²"
 ### Options
 
 ```typescript
-toWadeGiles("中國", {
+toWadeGiles("台北", {
   toneFormat: "superscript", // 'superscript' | 'number' | 'none'
   separator: "-", // Separator between syllables
   preserveNonChinese: true, // Keep non-Chinese characters
@@ -111,13 +111,13 @@ containsChinese("Hello World"); // false
 Access detailed conversion information:
 
 ```typescript
-const result = toWadeGiles("中國");
+const result = toWadeGiles("台北");
 
-console.log(result.text); // "chung¹-kuo²"
+console.log(result.text); // "t'ai²-pei³"
 console.log(result.segments);
 // [
-//   { original: "中", pinyin: "zhong1", wadeGiles: "chung", tone: 1 },
-//   { original: "國", pinyin: "guo2", wadeGiles: "kuo", tone: 2 }
+//   { original: "台", pinyin: "tai2", wadeGiles: "t'ai", tone: 2 },
+//   { original: "北", pinyin: "bei3", wadeGiles: "pei", tone: 3 }
 // ]
 ```
 

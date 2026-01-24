@@ -7,8 +7,8 @@ describe("Mixed Chinese and non-Chinese text", () => {
   });
 
   it("should handle text ending with English", () => {
-    const result = toWadeGiles("中國 is great");
-    expect(result.text).toBe("chung¹-kuo² is great");
+    const result = toWadeGiles("台北 is great");
+    expect(result.text).toBe("t'ai²-pei³ is great");
   });
 
   it("should handle mixed text with punctuation", () => {
@@ -61,8 +61,8 @@ describe("Mixed Chinese and non-Chinese text", () => {
 
   describe("capitalization with mixed text", () => {
     it("should capitalize only Chinese portion", () => {
-      const result = toWadeGiles("Visit 北京 today", { capitalize: true });
-      expect(result.text).toBe("Visit Pei³-ching¹ today");
+      const result = toWadeGiles("Visit 高雄 today", { capitalize: true });
+      expect(result.text).toBe("Visit Kao¹-hsiung² today");
     });
   });
 });

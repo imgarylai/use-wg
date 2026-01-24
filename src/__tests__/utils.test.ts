@@ -75,11 +75,11 @@ describe("Chinese detection", () => {
 describe("Text segmentation", () => {
   describe("segmentText", () => {
     it("should segment Chinese-only text", () => {
-      const segments = segmentText("中國");
+      const segments = segmentText("台北");
       expect(segments).toHaveLength(1);
       expect(segments[0]).toEqual({
         type: "chinese",
-        text: "中國",
+        text: "台北",
         startIndex: 0,
         endIndex: 2,
       });
@@ -174,14 +174,14 @@ describe("URL-safe utilities", () => {
 describe("Pinyin utilities", () => {
   describe("toPinyin", () => {
     it("should convert Chinese text to pinyin", () => {
-      const results = toPinyin("中國");
+      const results = toPinyin("台北");
       expect(results).toHaveLength(2);
-      expect(results[0]?.character).toBe("中");
-      expect(results[0]?.pinyinWithoutTone).toBe("zhong");
-      expect(results[0]?.tone).toBe(1);
-      expect(results[1]?.character).toBe("國");
-      expect(results[1]?.pinyinWithoutTone).toBe("guo");
-      expect(results[1]?.tone).toBe(2);
+      expect(results[0]?.character).toBe("台");
+      expect(results[0]?.pinyinWithoutTone).toBe("tai");
+      expect(results[0]?.tone).toBe(2);
+      expect(results[1]?.character).toBe("北");
+      expect(results[1]?.pinyinWithoutTone).toBe("bei");
+      expect(results[1]?.tone).toBe(3);
     });
 
     it("should handle single character", () => {

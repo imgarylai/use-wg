@@ -11,13 +11,13 @@ describe("toWadeGiles", () => {
     });
 
     it("should convert multiple characters with separator", () => {
-      const result = toWadeGiles("中國");
-      expect(result.text).toBe("chung¹-kuo²");
+      const result = toWadeGiles("台北");
+      expect(result.text).toBe("t'ai²-pei³");
     });
 
-    it("should handle 北京 (Beijing)", () => {
-      const result = toWadeGiles("北京");
-      expect(result.text).toBe("pei³-ching¹");
+    it("should handle 高雄 (Kaohsiung)", () => {
+      const result = toWadeGiles("高雄");
+      expect(result.text).toBe("kao¹-hsiung²");
     });
 
     it("should handle 台灣 (Taiwan)", () => {
@@ -56,20 +56,20 @@ describe("toWadeGiles", () => {
     });
 
     it("should remove tones in URL-safe mode", () => {
-      const result = toWadeGiles("中國", { urlSafe: true });
-      expect(result.text).toBe("chung-kuo");
+      const result = toWadeGiles("台北", { urlSafe: true });
+      expect(result.text).toBe("tai-pei");
     });
   });
 
   describe("options", () => {
     it("should capitalize when requested", () => {
-      const result = toWadeGiles("中國", { capitalize: true });
-      expect(result.text).toBe("Chung¹-kuo²");
+      const result = toWadeGiles("台北", { capitalize: true });
+      expect(result.text).toBe("T'ai²-pei³");
     });
 
     it("should use custom separator", () => {
-      const result = toWadeGiles("中國", { separator: " " });
-      expect(result.text).toBe("chung¹ kuo²");
+      const result = toWadeGiles("台北", { separator: " " });
+      expect(result.text).toBe("t'ai² pei³");
     });
   });
 

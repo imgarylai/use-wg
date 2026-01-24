@@ -28,16 +28,16 @@ const DEFAULT_OPTIONS: Required<WadeGilesOptions> = {
  * @example
  * ```typescript
  * // Basic usage
- * toWadeGiles('中國').text; // "Chung¹-kuo²"
+ * toWadeGiles('台北').text; // "t'ai²-pei³"
  *
  * // With options
- * toWadeGiles('北京', { toneFormat: 'number' }).text; // "Pei3-ching1"
+ * toWadeGiles('高雄', { toneFormat: 'number' }).text; // "kao1-hsiung2"
  *
  * // URL-safe output
  * toWadeGiles('台灣', { urlSafe: true }).text; // "tai-wan"
  *
  * // Mixed text
- * toWadeGiles('Hello 世界!').text; // "Hello Shih⁴-chieh⁴!"
+ * toWadeGiles('Hello 世界!').text; // "Hello shih⁴-chieh⁴!"
  * ```
  */
 export function toWadeGiles(
