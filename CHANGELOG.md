@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/imgarylai/use-wg/compare/v1.2.0...v1.3.0) (2026-01-27)
+
+### Features
+
+- add Node.js 20 support ([902b443](https://github.com/imgarylai/use-wg/commit/902b4430eb7728399dccd9b2cec671e36dd273ad))
+
 # [1.2.0](https://github.com/imgarylai/use-wg/compare/v1.1.0...v1.2.0) (2026-01-24)
 
 ### Bug Fixes
