@@ -1,3 +1,14 @@
+# [2.0.0](https://github.com/imgarylai/use-wg/compare/v1.3.0...v2.0.0) (2026-01-30)
+
+- feat!: drop Node.js 20 support ([5ebdfb0](https://github.com/imgarylai/use-wg/commit/5ebdfb0716b224b7da2f26bea18082dadfc6b193))
+
+### BREAKING CHANGES
+
+- Minimum required Node.js version is now 22.
+  Updated engines field and CI test matrix to remove Node.js 20.
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
 # [1.3.0](https://github.com/imgarylai/use-wg/compare/v1.2.0...v1.3.0) (2026-01-27)
 
 ### Features
