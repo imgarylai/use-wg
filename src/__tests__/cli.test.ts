@@ -17,11 +17,14 @@ function runCli(args: string): string {
 }
 
 function runCliWithStdin(input: string, args = ""): string {
-  return execSync(`echo "${input}" | node ${CLI_PATH} ${args}`, {
-    encoding: "utf8",
-    shell: "/bin/bash",
-    env: { ...process.env, FORCE_COLOR: "0" },
-  }).trim();
+  const escaped = input.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+  return execSync(
+    `node -e "process.stdout.write('${escaped}')" | node ${CLI_PATH} ${args}`,
+    {
+      encoding: "utf8",
+      env: { ...process.env, FORCE_COLOR: "0" },
+    },
+  ).trim();
 }
 
 describe("CLI", () => {
