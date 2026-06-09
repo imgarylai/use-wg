@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/imgarylai/use-wg/compare/v2.0.3...v2.0.4) (2026-06-09)
+
+### Bug Fixes
+
+- **ts:** add ignoreDeprecations and explicit rootDir for TypeScript 6 ([d62db29](https://github.com/imgarylai/use-wg/commit/d62db296c90723d1f83440920fdebc4dbdd3d0a8))
+- **ts:** declare node + jest types explicitly for TypeScript 6 ([e05915b](https://github.com/imgarylai/use-wg/commit/e05915beb52b99b57c9faf81d90748b2c84b00c2))
+
 ## [2.0.3](https://github.com/imgarylai/use-wg/compare/v2.0.2...v2.0.3) (2026-06-09)
 
 ### Bug Fixes
