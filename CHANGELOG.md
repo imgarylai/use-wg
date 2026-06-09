@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/imgarylai/use-wg/compare/v2.0.1...v2.0.2) (2026-06-09)
+
+### Bug Fixes
+
+- **deps:** update non-major dependencies ([8f0f349](https://github.com/imgarylai/use-wg/commit/8f0f349d919011e2470d32da40746ef125838193))
+
 ## [2.0.1](https://github.com/imgarylai/use-wg/compare/v2.0.0...v2.0.1) (2026-06-09)
 
 ### Bug Fixes
