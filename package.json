@@ -70,7 +70,7 @@
     "eslint-plugin-jest": "29.15.2",
     "husky": "9.1.7",
     "jest": "^30.0.0",
-    "lint-staged": "16.4.0",
+    "lint-staged": "17.0.7",
     "prettier": "^3.2.5",
     "prettier-package-json": "^2.4.11",
     "rimraf": "^6.0.0",
