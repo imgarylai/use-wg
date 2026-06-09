@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/imgarylai/use-wg/compare/v2.0.0...v2.0.1) (2026-06-09)
+
+### Bug Fixes
+
+- **test:** use cross-platform stdin piping in CLI tests ([ce88547](https://github.com/imgarylai/use-wg/commit/ce88547ad372fa432a7572e0461fd8cc15934d64))
+
 # [2.0.0](https://github.com/imgarylai/use-wg/compare/v1.3.0...v2.0.0) (2026-01-30)
 
 - feat!: drop Node.js 20 support ([5ebdfb0](https://github.com/imgarylai/use-wg/commit/5ebdfb0716b224b7da2f26bea18082dadfc6b193))
