@@ -1,3 +1,9 @@
+## [2.0.3](https://github.com/imgarylai/use-wg/compare/v2.0.2...v2.0.3) (2026-06-09)
+
+### Bug Fixes
+
+- **deps:** update dependency commander to v15 ([4480303](https://github.com/imgarylai/use-wg/commit/4480303db1ea1e835f209743b9417d64bfa85c9f))
+
 ## [2.0.2](https://github.com/imgarylai/use-wg/compare/v2.0.1...v2.0.2) (2026-06-09)
 
 ### Bug Fixes
