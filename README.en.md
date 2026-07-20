@@ -244,7 +244,7 @@ interface WadeGilesSegment {
 
 ## Performance
 
-Run benchmark: `npm run benchmark`
+Run benchmark: `pnpm run benchmark`
 
 | Test             | Input                             | Avg (ms) | Ops/sec |
 | ---------------- | --------------------------------- | -------- | ------- |
@@ -261,22 +261,24 @@ Run benchmark: `npm run benchmark`
 ## Requirements
 
 - Node.js >= 22
-- npm >= 10.0.0
+- pnpm >= 10
 
 ## Development
 
+This project uses **pnpm** (>= 10), pinned via the `packageManager` field and managed by Corepack.
+
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Run tests
-npm test
+pnpm test
 
 # Build
-npm run build
+pnpm run build
 
 # Type check
-npm run type-check
+pnpm run type-check
 ```
 
 ## License

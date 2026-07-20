@@ -4,14 +4,16 @@
   "automergeStrategy": "rebase",
   "extends": ["config:recommended"],
   "schedule": ["every weekend"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
   "vulnerabilityAlerts": {
     "enabled": true,
     "schedule": ["at any time"]
   },
   "packageRules": [
     {
-      "groupName": "node",
-      "matchPackageNames": ["node"],
+      "description": "Do not chase engines minimums or the pinned pnpm version",
+      "matchDepTypes": ["engines", "packageManager"],
       "enabled": false
     },
     {

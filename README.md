@@ -244,7 +244,7 @@ interface WadeGilesSegment {
 
 ## 效能
 
-執行效能測試：`npm run benchmark`
+執行效能測試：`pnpm run benchmark`
 
 | 測試             | 輸入                              | 平均時間 (ms) | 每秒運算次數 |
 | ---------------- | --------------------------------- | ------------- | ------------ |
@@ -261,22 +261,24 @@ interface WadeGilesSegment {
 ## 系統需求
 
 - Node.js >= 22
-- npm >= 10.0.0
+- pnpm >= 10
 
 ## 開發
 
+本專案使用 **pnpm**（>= 10），版本透過 `packageManager` 欄位由 Corepack 鎖定。
+
 ```bash
 # 安裝相依套件
-npm install
+pnpm install
 
 # 執行測試
-npm test
+pnpm test
 
 # 建置
-npm run build
+pnpm run build
 
 # 型別檢查
-npm run type-check
+pnpm run type-check
 ```
 
 ## 授權
