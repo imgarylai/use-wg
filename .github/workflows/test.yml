@@ -58,4 +58,6 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          # Coverage upload is informational; a Codecov/keyserver hiccup must
+          # not fail the build (its own PR check still reports).
+          fail_ci_if_error: false
