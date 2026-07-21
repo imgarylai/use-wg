@@ -59,6 +59,32 @@ describe("toWadeGiles", () => {
       const result = toWadeGiles("台北", { urlSafe: true });
       expect(result.text).toBe("tai-pei");
     });
+
+    it("should strip leading list numbers and punctuation", () => {
+      const result = toWadeGiles("1. Test", { urlSafe: true });
+      expect(result.text).toBe("1-test");
+    });
+
+    it("should collapse punctuation runs into the separator", () => {
+      expect(toWadeGiles("C++ Tips", { urlSafe: true }).text).toBe("c-tips");
+      expect(toWadeGiles("Node.js 101", { urlSafe: true }).text).toBe(
+        "node-js-101",
+      );
+      expect(toWadeGiles("a, b & c", { urlSafe: true }).text).toBe("a-b-c");
+    });
+
+    it("should leave already-clean romanized output unchanged", () => {
+      const result = toWadeGiles("啟靈工程師 note", { urlSafe: true });
+      expect(result.text).toBe("chi-ling-kung-cheng-shih-note");
+    });
+
+    it("should respect a custom separator when slugifying", () => {
+      const result = toWadeGiles("1. Test", {
+        urlSafe: true,
+        separator: "_",
+      });
+      expect(result.text).toBe("1_test");
+    });
   });
 
   describe("options", () => {
