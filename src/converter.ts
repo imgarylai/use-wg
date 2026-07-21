@@ -100,10 +100,21 @@ export function toWadeGiles(
 
   // Apply URL-safe transformation to the entire output
   if (opts.urlSafe) {
-    finalText = finalText
-      .toLowerCase()
-      .replace(/\s+/g, opts.separator)
-      .replace(/-+/g, "-"); // Collapse multiple hyphens
+    const sep = opts.separator;
+    // Collapse any run of non-alphanumeric characters (whitespace,
+    // punctuation, hyphens, etc.) into a single separator so the output is a
+    // clean slug rather than leaking `.`, `+`, `,`, `&` and friends.
+    finalText = finalText.toLowerCase().replace(/[^a-z0-9]+/g, sep);
+
+    // Trim any leading/trailing separators left behind (e.g. "1. Test" would
+    // otherwise start with the separator once the number is stripped).
+    if (sep) {
+      const escaped = sep.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      finalText = finalText.replace(
+        new RegExp(`^(?:${escaped})+|(?:${escaped})+$`, "g"),
+        "",
+      );
+    }
   }
 
   return {
