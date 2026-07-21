@@ -1,3 +1,9 @@
+## [2.0.5](https://github.com/imgarylai/use-wg/compare/v2.0.4...v2.0.5) (2026-07-21)
+
+### Bug Fixes
+
+- slugify punctuation in urlSafe output ([f6b3162](https://github.com/imgarylai/use-wg/commit/f6b31626f778a5f91e4e6720a6e91c1e6ca1c801)), closes [#33](https://github.com/imgarylai/use-wg/issues/33)
+
 ## [2.0.4](https://github.com/imgarylai/use-wg/compare/v2.0.3...v2.0.4) (2026-06-09)
 
 ### Bug Fixes
