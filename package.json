@@ -4,7 +4,7 @@
   "description": "A TypeScript library for converting Chinese characters to Wade-Giles romanization",
   "license": "MIT",
   "author": "Gary Lai <garylai1990@gmail.com>",
-  "homepage": "https://github.com/imgarylai/use-wg#readme",
+  "homepage": "https://laigary.com/labs/use-wg",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/imgarylai/use-wg.git"

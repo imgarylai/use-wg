@@ -7,6 +7,8 @@
 
 [English](README.en.md)
 
+**[線上 Demo](https://laigary.com/labs/use-wg)** — 打中文，即時看到威妥瑪拼音與逐字對照。
+
 ## 功能特色
 
 - 中文字（繁體及簡體）→ 威妥瑪拼音轉換
