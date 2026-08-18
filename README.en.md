@@ -7,6 +7,8 @@ A TypeScript library for converting Chinese characters to Wade-Giles romanizatio
 
 [繁體中文](README.md)
 
+**[Live demo](https://laigary.com/labs/use-wg)** — type Chinese and watch the Wade-Giles output and per-character breakdown update.
+
 ## Features
 
 - Chinese characters (Traditional & Simplified) → Wade-Giles romanization
