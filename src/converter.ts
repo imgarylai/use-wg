@@ -4,7 +4,11 @@ import type {
   WadeGilesSegment,
   ToneFormat,
 } from "./types.js";
-import { lookupWadeGiles, formatTone } from "./mapping/index.js";
+import {
+  lookupWadeGiles,
+  formatTone,
+  splitNumericTone,
+} from "./mapping/index.js";
 import { toPinyin, getAllPinyinReadings } from "./utils/pinyin.js";
 import { segmentText } from "./utils/text-segmenter.js";
 import { toUrlSafe } from "./utils/url-safe.js";
@@ -137,42 +141,36 @@ function convertChineseSegment(
   for (const result of pinyinResults) {
     const wadeGilesBase = lookupWadeGiles(result.pinyinWithoutTone);
 
-    if (wadeGilesBase === undefined) {
-      // Fallback: use pinyin if no Wade-Giles mapping found
-      segments.push({
-        original: result.character,
-        pinyin: result.pinyin,
-        wadeGiles: result.pinyinWithoutTone,
-        tone: result.tone,
-      });
-      wgParts.push(
-        formatWadeGilesSyllable(result.pinyinWithoutTone, result.tone, opts),
-      );
-    } else {
-      const segment: WadeGilesSegment = {
-        original: result.character,
-        pinyin: result.pinyin,
-        wadeGiles: wadeGilesBase,
-        tone: result.tone,
-      };
+    // Fallback: use pinyin if no Wade-Giles mapping found
+    const syllable = wadeGilesBase ?? result.pinyinWithoutTone;
 
-      // Add alternatives if polyphoneMode is 'all'
-      if (opts.polyphoneMode === "all") {
-        const allReadings = getAllPinyinReadings(result.character);
-        if (allReadings.length > 1) {
-          segment.alternatives = allReadings
-            .map((reading) => {
-              const base = reading.replace(/[1-5]$/, "");
-              // istanbul ignore next - fallback for unmapped pinyin
-              return lookupWadeGiles(base) ?? base;
-            })
-            .filter((alt, idx, arr) => arr.indexOf(alt) === idx); // Dedupe
-        }
+    const segment: WadeGilesSegment = {
+      original: result.character,
+      pinyin: result.pinyin,
+      // Keep the segment in step with the joined text: in URL-safe mode the
+      // romanization is normalized here too, so callers assembling their own
+      // output from `segments` do not have to strip apostrophes and ü.
+      wadeGiles: opts.urlSafe ? toUrlSafe(syllable) : syllable,
+      tone: result.tone,
+    };
+
+    // Add alternatives if polyphoneMode is 'all'
+    if (wadeGilesBase !== undefined && opts.polyphoneMode === "all") {
+      const allReadings = getAllPinyinReadings(result.character);
+      if (allReadings.length > 1) {
+        segment.alternatives = allReadings
+          .map((reading) => {
+            const { base } = splitNumericTone(reading);
+            // istanbul ignore next - fallback for unmapped pinyin
+            const alt = lookupWadeGiles(base) ?? base;
+            return opts.urlSafe ? toUrlSafe(alt) : alt;
+          })
+          .filter((alt, idx, arr) => arr.indexOf(alt) === idx); // Dedupe
       }
-
-      segments.push(segment);
-      wgParts.push(formatWadeGilesSyllable(wadeGilesBase, result.tone, opts));
     }
+
+    segments.push(segment);
+    wgParts.push(formatWadeGilesSyllable(syllable, result.tone, opts));
   }
 
   let resultText = wgParts.join(opts.separator);
@@ -232,11 +230,9 @@ export function pinyinToWadeGiles(
 ): string {
   const toneFormat = options.toneFormat ?? "superscript";
 
-  // Extract tone from pinyin
-  const toneMatch = pinyin.match(/([1-5])$/);
-  // istanbul ignore next - regex group always exists when match succeeds
-  const tone = toneMatch ? parseInt(toneMatch[1] ?? "5", 10) : undefined;
-  const basePinyin = pinyin.replace(/[1-5]$/, "").toLowerCase();
+  // Extract tone from pinyin ("de0" is pinyin-pro's neutral tone, i.e. 5)
+  const { base, tone } = splitNumericTone(pinyin);
+  const basePinyin = base.toLowerCase();
 
   const wadeGiles = lookupWadeGiles(basePinyin) ?? basePinyin;
   const toneStr = formatTone(tone, toneFormat);

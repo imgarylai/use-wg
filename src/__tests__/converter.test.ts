@@ -78,12 +78,71 @@ describe("toWadeGiles", () => {
       expect(result.text).toBe("chi-ling-kung-cheng-shih-note");
     });
 
+    it("should apply URL-safe normalization to segments too", () => {
+      const result = toWadeGiles("律品", { urlSafe: true });
+      expect(result.segments.map((s) => s.wadeGiles)).toEqual(["lu", "pin"]);
+      // Rebuilding the slug from segments matches the joined text
+      expect(result.segments.map((s) => s.wadeGiles).join("-")).toBe(
+        result.text,
+      );
+    });
+
+    it("should keep apostrophes and ü when not in URL-safe mode", () => {
+      const result = toWadeGiles("律品", { toneFormat: "none" });
+      expect(result.segments.map((s) => s.wadeGiles)).toEqual(["lu", "p'in"]);
+    });
+
+    it("should apply URL-safe normalization to polyphone alternatives", () => {
+      const result = toWadeGiles("重", { urlSafe: true, polyphoneMode: "all" });
+      for (const alt of result.segments[0]?.alternatives ?? []) {
+        expect(alt).toMatch(/^[a-z0-9-]*$/);
+      }
+    });
+
     it("should respect a custom separator when slugifying", () => {
       const result = toWadeGiles("1. Test", {
         urlSafe: true,
         separator: "_",
       });
       expect(result.text).toBe("1_test");
+    });
+  });
+
+  describe("neutral tone (輕聲)", () => {
+    it("should romanize neutral-tone characters instead of leaking pinyin", () => {
+      // pinyin-pro reports 的 as "de0"; the 0 must not survive into the output
+      expect(toWadeGiles("的", { toneFormat: "none" }).text).toBe("te");
+      expect(toWadeGiles("呢", { toneFormat: "none" }).text).toBe("ne");
+      expect(toWadeGiles("吧", { toneFormat: "none" }).text).toBe("pa");
+      expect(toWadeGiles("嘛", { toneFormat: "none" }).text).toBe("ma");
+    });
+
+    it("should report the neutral tone as 5 in every tone format", () => {
+      expect(toWadeGiles("我的書", { toneFormat: "none" }).text).toBe(
+        "wo-te-shu",
+      );
+      expect(toWadeGiles("我的書", { toneFormat: "number" }).text).toBe(
+        "wo3-te5-shu1",
+      );
+      expect(toWadeGiles("我的書", { toneFormat: "superscript" }).text).toBe(
+        "wo³-te⁵-shu¹",
+      );
+    });
+
+    it("should expose the neutral tone as 5 on the segment", () => {
+      const segment = toWadeGiles("的").segments[0];
+      expect(segment?.tone).toBe(5);
+      expect(segment?.wadeGiles).toBe("te");
+      expect(segment?.pinyin).toBe("de5");
+    });
+
+    it("should not leak a tone digit into URL-safe output", () => {
+      expect(toWadeGiles("我的", { urlSafe: true }).text).toBe("wo-te");
+    });
+
+    it("should still convert non-neutral d- initials", () => {
+      expect(toWadeGiles("大", { toneFormat: "none" }).text).toBe("ta");
+      expect(toWadeGiles("代", { toneFormat: "none" }).text).toBe("tai");
     });
   });
 
@@ -179,6 +238,14 @@ describe("pinyinToWadeGiles", () => {
     expect(pinyinToWadeGiles("ta1")).toBe("t'a¹");
     expect(pinyinToWadeGiles("ka1")).toBe("k'a¹");
     expect(pinyinToWadeGiles("qi1")).toBe("ch'i¹");
+  });
+
+  it("should treat pinyin-pro's 0 as the neutral tone", () => {
+    expect(pinyinToWadeGiles("de0", { toneFormat: "none" })).toBe("te");
+    expect(pinyinToWadeGiles("de0", { toneFormat: "number" })).toBe("te5");
+    expect(pinyinToWadeGiles("de0")).toBe("te⁵");
+    // ...and keeps agreeing with the 5 spelling
+    expect(pinyinToWadeGiles("de5")).toBe(pinyinToWadeGiles("de0"));
   });
 
   it("should handle special mappings", () => {

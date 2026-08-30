@@ -104,6 +104,15 @@ URL-safe mode automatically:
 - Outputs lowercase
 - Converts spaces to hyphens (`-`)
 
+The same normalization is applied to `segments[].wadeGiles`, so a slug
+assembled from the segments needs no extra apostrophe or `ü` handling:
+
+```typescript
+const result = toWadeGiles("律品", { urlSafe: true });
+result.text; // "lu-pin"
+result.segments.map((s) => s.wadeGiles); // ["lu", "pin"]
+```
+
 ### Mixed Chinese/English Text
 
 The converter intelligently handles mixed text:
@@ -159,6 +168,12 @@ console.log(result.segments);
 //   { original: "台", pinyin: "tai2", wadeGiles: "t'ai", tone: 2 },
 //   { original: "北", pinyin: "bei3", wadeGiles: "pei", tone: 3 }
 // ]
+```
+
+Neutral-tone syllables always report `tone: 5`:
+
+```typescript
+toWadeGiles("我的書", { toneFormat: "number" }).text; // "wo3-te5-shu1"
 ```
 
 ## Wade-Giles Mapping

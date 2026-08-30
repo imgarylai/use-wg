@@ -1,5 +1,5 @@
 import * as pinyinPro from "pinyin-pro";
-import { getAllPinyinReadings } from "../utils/pinyin";
+import { getAllPinyinReadings, toPinyin } from "../utils/pinyin";
 
 // Mock pinyin-pro to test edge cases
 jest.mock("pinyin-pro", () => ({
@@ -38,5 +38,37 @@ describe("getAllPinyinReadings edge cases", () => {
     const readings = getAllPinyinReadings("行");
 
     expect(readings).toEqual([]);
+  });
+});
+
+describe("toPinyin edge cases", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should default to the neutral tone when pinyin-pro omits the number", () => {
+    (pinyinPro.pinyin as jest.Mock).mockReturnValue(["de"]);
+
+    const results = toPinyin("的");
+
+    expect(results[0]).toEqual({
+      character: "的",
+      pinyin: "de",
+      tone: 5,
+      pinyinWithoutTone: "de",
+    });
+  });
+
+  it("should normalize pinyin-pro's neutral tone 0 to 5", () => {
+    (pinyinPro.pinyin as jest.Mock).mockReturnValue(["de0"]);
+
+    const results = toPinyin("的");
+
+    expect(results[0]).toEqual({
+      character: "的",
+      pinyin: "de5",
+      tone: 5,
+      pinyinWithoutTone: "de",
+    });
   });
 });
