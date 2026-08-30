@@ -194,6 +194,13 @@ describe("Pinyin utilities", () => {
       const results = toPinyin("");
       expect(results).toHaveLength(0);
     });
+
+    it("should normalize pinyin-pro's neutral tone 0 to 5", () => {
+      const results = toPinyin("的");
+      expect(results[0]?.pinyinWithoutTone).toBe("de");
+      expect(results[0]?.tone).toBe(5);
+      expect(results[0]?.pinyin).toBe("de5");
+    });
   });
 
   describe("getAllPinyinReadings", () => {

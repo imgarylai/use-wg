@@ -12,6 +12,39 @@ const SUPERSCRIPT_NUMBERS: Record<number, string> = {
 };
 
 /**
+ * The tone number this library uses for the neutral tone.
+ */
+export const NEUTRAL_TONE = 5;
+
+/**
+ * Split a trailing numeric tone marker off a pinyin syllable.
+ *
+ * Accepts `0` as well as `1`-`5` because pinyin-pro writes the neutral tone as
+ * `0` (e.g. "de0"); it is normalized to {@link NEUTRAL_TONE} so the rest of the
+ * library only ever deals with tones 1-5.
+ *
+ * @param pinyin - Pinyin syllable, with or without a numeric tone
+ * @returns The syllable without its tone marker and the normalized tone number
+ */
+export function splitNumericTone(pinyin: string): {
+  base: string;
+  tone: number | undefined;
+} {
+  const match = pinyin.match(/^(.+?)([0-5])$/);
+
+  if (!match) {
+    return { base: pinyin, tone: undefined };
+  }
+
+  const tone = parseInt(match[2]!, 10);
+
+  return {
+    base: match[1]!,
+    tone: tone === 0 ? NEUTRAL_TONE : tone,
+  };
+}
+
+/**
  * Format a tone number according to the specified format.
  *
  * @param tone - The tone number (1-5)
@@ -49,13 +82,10 @@ export function extractTone(pinyin: string): {
   tone: number | undefined;
 } {
   // Check for numeric tone at the end
-  const numericMatch = pinyin.match(/^(.+?)([1-5])$/);
+  const numeric = splitNumericTone(pinyin);
   /* istanbul ignore else */
-  if (numericMatch) {
-    return {
-      base: numericMatch[1]!,
-      tone: parseInt(numericMatch[2]!, 10),
-    };
+  if (numeric.tone !== undefined) {
+    return numeric;
   }
 
   // Tone diacritics mapping

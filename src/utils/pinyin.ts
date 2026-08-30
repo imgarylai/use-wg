@@ -1,4 +1,5 @@
 import { pinyin, customPinyin } from "pinyin-pro";
+import { NEUTRAL_TONE, splitNumericTone } from "../mapping/tone-formats.js";
 
 export interface PinyinResult {
   character: string;
@@ -43,17 +44,16 @@ export function toPinyin(
     // istanbul ignore next - defensive check for array bounds
     if (char === undefined || py === undefined) continue;
 
-    // Extract tone number from pinyin (e.g., "zhong1" -> tone 1)
-    const toneMatch = py.match(/([1-5])$/);
-    // istanbul ignore next - regex group always exists when match succeeds
-    const tone = toneMatch ? parseInt(toneMatch[1] ?? "5", 10) : 5;
-
-    // Remove tone number to get base pinyin
-    const pinyinWithoutTone = py.replace(/[1-5]$/, "");
+    // Split off the tone number (e.g., "zhong1" -> tone 1). pinyin-pro marks
+    // the neutral tone as "de0", which splitNumericTone normalizes to 5.
+    const { base: pinyinWithoutTone, tone: parsedTone } = splitNumericTone(py);
+    const tone = parsedTone ?? NEUTRAL_TONE;
 
     results.push({
       character: char,
-      pinyin: py,
+      // Re-attach the normalized tone so the neutral tone is always reported
+      // as 5 ("de5"), never as pinyin-pro's "de0".
+      pinyin: parsedTone === undefined ? py : `${pinyinWithoutTone}${tone}`,
       tone,
       pinyinWithoutTone,
     });

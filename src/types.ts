@@ -45,6 +45,7 @@ export interface WadeGilesOptions {
   /**
    * Whether to produce URL-safe output (ASCII only, no tones, no special chars).
    * When true, forces toneFormat to 'none', removes apostrophes, and converts ü to u.
+   * This applies to both the joined `text` and each `segments[].wadeGiles`.
    * @default false
    */
   urlSafe?: boolean;
@@ -66,6 +67,9 @@ export interface WadeGilesSegment {
 
   /**
    * The Wade-Giles romanization.
+   * When `urlSafe` is enabled this is normalized the same way as
+   * {@link WadeGilesResult.text} (lowercase, no apostrophes, ü → u), so a slug
+   * can be assembled from the segments directly.
    */
   wadeGiles: string;
 

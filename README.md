@@ -104,6 +104,15 @@ URL 安全模式會自動：
 - 輸出小寫
 - 將空格轉換為連字號（`-`）
 
+上述正規化同時會套用到 `segments[].wadeGiles`，因此自行從分段組裝網址時，
+不需要再處理撇號或 `ü`：
+
+```typescript
+const result = toWadeGiles("律品", { urlSafe: true });
+result.text; // "lu-pin"
+result.segments.map((s) => s.wadeGiles); // ["lu", "pin"]
+```
+
 ### 中英文混合文字
 
 轉換器能智慧處理混合文字：
@@ -159,6 +168,12 @@ console.log(result.segments);
 //   { original: "台", pinyin: "tai2", wadeGiles: "t'ai", tone: 2 },
 //   { original: "北", pinyin: "bei3", wadeGiles: "pei", tone: 3 }
 // ]
+```
+
+輕聲字的 `tone` 一律為 `5`：
+
+```typescript
+toWadeGiles("我的書", { toneFormat: "number" }).text; // "wo3-te5-shu1"
 ```
 
 ## 威妥瑪拼音對照表

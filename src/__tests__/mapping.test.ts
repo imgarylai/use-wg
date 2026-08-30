@@ -1,10 +1,16 @@
 import { lookupWadeGiles } from "../mapping/pinyin-to-wade-giles";
-import { formatTone, extractTone } from "../mapping/tone-formats";
+import {
+  formatTone,
+  extractTone,
+  splitNumericTone,
+} from "../mapping/tone-formats";
 import {
   lookupWadeGiles as lookupWadeGilesFromIndex,
   PINYIN_TO_WADE_GILES,
   formatTone as formatToneFromIndex,
   extractTone as extractToneFromIndex,
+  splitNumericTone as splitNumericToneFromIndex,
+  NEUTRAL_TONE,
 } from "../mapping";
 
 describe("PINYIN_TO_WADE_GILES mapping", () => {
@@ -202,12 +208,38 @@ describe("formatTone", () => {
   });
 });
 
+describe("splitNumericTone", () => {
+  it("should split a numeric tone off a syllable", () => {
+    expect(splitNumericTone("zhong1")).toEqual({ base: "zhong", tone: 1 });
+    expect(splitNumericTone("de5")).toEqual({ base: "de", tone: 5 });
+  });
+
+  it("should normalize pinyin-pro's neutral tone 0 to 5", () => {
+    expect(splitNumericTone("de0")).toEqual({ base: "de", tone: NEUTRAL_TONE });
+    expect(splitNumericTone("ne0")).toEqual({ base: "ne", tone: 5 });
+  });
+
+  it("should return no tone when there is no numeric marker", () => {
+    expect(splitNumericTone("zhong")).toEqual({
+      base: "zhong",
+      tone: undefined,
+    });
+  });
+
+  it("should not treat a bare digit as a tone marker", () => {
+    expect(splitNumericTone("5")).toEqual({ base: "5", tone: undefined });
+  });
+});
+
 describe("extractTone", () => {
   it("should extract numeric tones", () => {
     expect(extractTone("zhong1")).toEqual({ base: "zhong", tone: 1 });
     expect(extractTone("guo2")).toEqual({ base: "guo", tone: 2 });
     expect(extractTone("bei3")).toEqual({ base: "bei", tone: 3 });
     expect(extractTone("shi4")).toEqual({ base: "shi", tone: 4 });
+    expect(extractTone("de5")).toEqual({ base: "de", tone: 5 });
+    // pinyin-pro writes the neutral tone as 0
+    expect(extractTone("de0")).toEqual({ base: "de", tone: 5 });
   });
 
   it("should handle pinyin without tone", () => {
@@ -250,5 +282,12 @@ describe("mapping index re-exports", () => {
 
   it("should re-export extractTone", () => {
     expect(extractToneFromIndex("zhong1").tone).toBe(1);
+  });
+
+  it("should re-export splitNumericTone and NEUTRAL_TONE", () => {
+    expect(splitNumericToneFromIndex("de0")).toEqual({
+      base: "de",
+      tone: NEUTRAL_TONE,
+    });
   });
 });
