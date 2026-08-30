@@ -1,3 +1,9 @@
+## [2.0.6](https://github.com/imgarylai/use-wg/compare/v2.0.5...v2.0.6) (2026-08-30)
+
+### Bug Fixes
+
+- romanize neutral-tone syllables and slugify segments ([434adb1](https://github.com/imgarylai/use-wg/commit/434adb1111642b4d3f0a5e2c8110d8a1e9f3b709)), closes [#36](https://github.com/imgarylai/use-wg/issues/36)
+
 ## [2.0.5](https://github.com/imgarylai/use-wg/compare/v2.0.4...v2.0.5) (2026-07-21)
 
 ### Bug Fixes
